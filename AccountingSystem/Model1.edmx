@@ -1,0 +1,516 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="accauntingDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ArticleTbl">
+          <Key>
+            <PropertyRef Name="articleID" />
+          </Key>
+          <Property Name="articleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="articleCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleDesc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articlePrice" Type="bigint" Nullable="false" />
+          <Property Name="articleExDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerTbl">
+          <Key>
+            <PropertyRef Name="customerID" />
+          </Key>
+          <Property Name="customerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerFamily" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerFatherName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerNationalCode" Type="bigint" Nullable="false" />
+          <Property Name="customerPhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="mainStorageTbl">
+          <Key>
+            <PropertyRef Name="mainstorageID" />
+          </Key>
+          <Property Name="mainstorageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="articleCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleExDate" Type="date" Nullable="false" />
+          <Property Name="operatorName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articlePrice" Type="bigint" Nullable="false" />
+          <Property Name="setDate" Type="date" Nullable="false" />
+          <Property Name="articleCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleTbl">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="roleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sellFactor">
+          <Key>
+            <PropertyRef Name="sellFactorId" />
+          </Key>
+          <Property Name="sellFactorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sellerPerson" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerIdFK" Type="int" Nullable="false" />
+          <Property Name="customerPhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customerAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleIdFK" Type="int" Nullable="false" />
+          <Property Name="articleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleCount" Type="int" Nullable="false" />
+          <Property Name="articlePrice" Type="bigint" Nullable="false" />
+          <Property Name="discount" Type="bigint" Nullable="false" />
+          <Property Name="sellPrice" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StorageTbl">
+          <Key>
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="StorageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="operatorIdFK" Type="int" Nullable="false" />
+          <Property Name="articleIdFK" Type="int" Nullable="false" />
+          <Property Name="articleSetDate" Type="date" Nullable="false" />
+          <Property Name="articleCount" Type="int" Nullable="false" />
+          <Property Name="articlePrice" Type="bigint" Nullable="false" />
+          <Property Name="totalPrice" Type="bigint" Nullable="false" />
+          <Property Name="articleExDate" Type="date" Nullable="false" />
+          <Property Name="articleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="articleCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="userTbl">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userUsername" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userRoleIdFK" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_sellFactor_ArticleTbl">
+          <End Role="ArticleTbl" Type="Self.ArticleTbl" Multiplicity="1" />
+          <End Role="sellFactor" Type="Self.sellFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArticleTbl">
+              <PropertyRef Name="articleID" />
+            </Principal>
+            <Dependent Role="sellFactor">
+              <PropertyRef Name="articleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sellFactor_CustomerTbl">
+          <End Role="CustomerTbl" Type="Self.CustomerTbl" Multiplicity="1" />
+          <End Role="sellFactor" Type="Self.sellFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerTbl">
+              <PropertyRef Name="customerID" />
+            </Principal>
+            <Dependent Role="sellFactor">
+              <PropertyRef Name="customerIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorageTbl_ArticleTbl">
+          <End Role="ArticleTbl" Type="Self.ArticleTbl" Multiplicity="1" />
+          <End Role="StorageTbl" Type="Self.StorageTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArticleTbl">
+              <PropertyRef Name="articleID" />
+            </Principal>
+            <Dependent Role="StorageTbl">
+              <PropertyRef Name="articleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorageTbl_userTbl">
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="1" />
+          <End Role="StorageTbl" Type="Self.StorageTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userTbl">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="StorageTbl">
+              <PropertyRef Name="operatorIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userTbl_RoleTbl">
+          <End Role="RoleTbl" Type="Self.RoleTbl" Multiplicity="1" />
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleTbl">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="userTbl">
+              <PropertyRef Name="userRoleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="accauntingDBModelStoreContainer">
+          <EntitySet Name="ArticleTbl" EntityType="Self.ArticleTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerTbl" EntityType="Self.CustomerTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="mainStorageTbl" EntityType="Self.mainStorageTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleTbl" EntityType="Self.RoleTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sellFactor" EntityType="Self.sellFactor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StorageTbl" EntityType="Self.StorageTbl" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userTbl" EntityType="Self.userTbl" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_sellFactor_ArticleTbl" Association="Self.FK_sellFactor_ArticleTbl">
+            <End Role="ArticleTbl" EntitySet="ArticleTbl" />
+            <End Role="sellFactor" EntitySet="sellFactor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sellFactor_CustomerTbl" Association="Self.FK_sellFactor_CustomerTbl">
+            <End Role="CustomerTbl" EntitySet="CustomerTbl" />
+            <End Role="sellFactor" EntitySet="sellFactor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorageTbl_ArticleTbl" Association="Self.FK_StorageTbl_ArticleTbl">
+            <End Role="ArticleTbl" EntitySet="ArticleTbl" />
+            <End Role="StorageTbl" EntitySet="StorageTbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorageTbl_userTbl" Association="Self.FK_StorageTbl_userTbl">
+            <End Role="userTbl" EntitySet="userTbl" />
+            <End Role="StorageTbl" EntitySet="StorageTbl" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userTbl_RoleTbl" Association="Self.FK_userTbl_RoleTbl">
+            <End Role="RoleTbl" EntitySet="RoleTbl" />
+            <End Role="userTbl" EntitySet="userTbl" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="accauntingDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ArticleTbl">
+          <Key>
+            <PropertyRef Name="articleID" />
+          </Key>
+          <Property Name="articleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="articleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articlePrice" Type="Int64" Nullable="false" />
+          <Property Name="articleExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="sellFactors" Relationship="Self.FK_sellFactor_ArticleTbl" FromRole="ArticleTbl" ToRole="sellFactor" />
+          <NavigationProperty Name="StorageTbls" Relationship="Self.FK_StorageTbl_ArticleTbl" FromRole="ArticleTbl" ToRole="StorageTbl" />
+        </EntityType>
+        <EntityType Name="CustomerTbl">
+          <Key>
+            <PropertyRef Name="customerID" />
+          </Key>
+          <Property Name="customerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerFamily" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerFatherName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerNationalCode" Type="Int64" Nullable="false" />
+          <Property Name="customerPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="sellFactors" Relationship="Self.FK_sellFactor_CustomerTbl" FromRole="CustomerTbl" ToRole="sellFactor" />
+        </EntityType>
+        <EntityType Name="mainStorageTbl">
+          <Key>
+            <PropertyRef Name="mainstorageID" />
+          </Key>
+          <Property Name="mainstorageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="articleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="operatorName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articlePrice" Type="Int64" Nullable="false" />
+          <Property Name="setDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="articleCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoleTbl">
+          <Key>
+            <PropertyRef Name="roleID" />
+          </Key>
+          <Property Name="roleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="roleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="userTbls" Relationship="Self.FK_userTbl_RoleTbl" FromRole="RoleTbl" ToRole="userTbl" />
+        </EntityType>
+        <EntityType Name="sellFactor">
+          <Key>
+            <PropertyRef Name="sellFactorId" />
+          </Key>
+          <Property Name="sellFactorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sellerPerson" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerIdFK" Type="Int32" Nullable="false" />
+          <Property Name="customerPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customerAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleIdFK" Type="Int32" Nullable="false" />
+          <Property Name="articleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleCount" Type="Int32" Nullable="false" />
+          <Property Name="articlePrice" Type="Int64" Nullable="false" />
+          <Property Name="discount" Type="Int64" Nullable="false" />
+          <Property Name="sellPrice" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ArticleTbl" Relationship="Self.FK_sellFactor_ArticleTbl" FromRole="sellFactor" ToRole="ArticleTbl" />
+          <NavigationProperty Name="CustomerTbl" Relationship="Self.FK_sellFactor_CustomerTbl" FromRole="sellFactor" ToRole="CustomerTbl" />
+        </EntityType>
+        <EntityType Name="StorageTbl">
+          <Key>
+            <PropertyRef Name="StorageID" />
+          </Key>
+          <Property Name="StorageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="operatorIdFK" Type="Int32" Nullable="false" />
+          <Property Name="articleIdFK" Type="Int32" Nullable="false" />
+          <Property Name="articleSetDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="articleCount" Type="Int32" Nullable="false" />
+          <Property Name="articlePrice" Type="Int64" Nullable="false" />
+          <Property Name="totalPrice" Type="Int64" Nullable="false" />
+          <Property Name="articleExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="articleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="articleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ArticleTbl" Relationship="Self.FK_StorageTbl_ArticleTbl" FromRole="StorageTbl" ToRole="ArticleTbl" />
+          <NavigationProperty Name="userTbl" Relationship="Self.FK_StorageTbl_userTbl" FromRole="StorageTbl" ToRole="userTbl" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="userTbl">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userRoleIdFK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RoleTbl" Relationship="Self.FK_userTbl_RoleTbl" FromRole="userTbl" ToRole="RoleTbl" />
+          <NavigationProperty Name="StorageTbls" Relationship="Self.FK_StorageTbl_userTbl" FromRole="userTbl" ToRole="StorageTbl" />
+        </EntityType>
+        <Association Name="FK_sellFactor_ArticleTbl">
+          <End Role="ArticleTbl" Type="Self.ArticleTbl" Multiplicity="1" />
+          <End Role="sellFactor" Type="Self.sellFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArticleTbl">
+              <PropertyRef Name="articleID" />
+            </Principal>
+            <Dependent Role="sellFactor">
+              <PropertyRef Name="articleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorageTbl_ArticleTbl">
+          <End Role="ArticleTbl" Type="Self.ArticleTbl" Multiplicity="1" />
+          <End Role="StorageTbl" Type="Self.StorageTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ArticleTbl">
+              <PropertyRef Name="articleID" />
+            </Principal>
+            <Dependent Role="StorageTbl">
+              <PropertyRef Name="articleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_sellFactor_CustomerTbl">
+          <End Role="CustomerTbl" Type="Self.CustomerTbl" Multiplicity="1" />
+          <End Role="sellFactor" Type="Self.sellFactor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CustomerTbl">
+              <PropertyRef Name="customerID" />
+            </Principal>
+            <Dependent Role="sellFactor">
+              <PropertyRef Name="customerIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userTbl_RoleTbl">
+          <End Role="RoleTbl" Type="Self.RoleTbl" Multiplicity="1" />
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RoleTbl">
+              <PropertyRef Name="roleID" />
+            </Principal>
+            <Dependent Role="userTbl">
+              <PropertyRef Name="userRoleIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StorageTbl_userTbl">
+          <End Role="userTbl" Type="Self.userTbl" Multiplicity="1" />
+          <End Role="StorageTbl" Type="Self.StorageTbl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userTbl">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="StorageTbl">
+              <PropertyRef Name="operatorIdFK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="accauntingDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ArticleTbls" EntityType="Self.ArticleTbl" />
+          <EntitySet Name="CustomerTbls" EntityType="Self.CustomerTbl" />
+          <EntitySet Name="mainStorageTbls" EntityType="Self.mainStorageTbl" />
+          <EntitySet Name="RoleTbls" EntityType="Self.RoleTbl" />
+          <EntitySet Name="sellFactors" EntityType="Self.sellFactor" />
+          <EntitySet Name="StorageTbls" EntityType="Self.StorageTbl" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="userTbls" EntityType="Self.userTbl" />
+          <AssociationSet Name="FK_sellFactor_ArticleTbl" Association="Self.FK_sellFactor_ArticleTbl">
+            <End Role="ArticleTbl" EntitySet="ArticleTbls" />
+            <End Role="sellFactor" EntitySet="sellFactors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorageTbl_ArticleTbl" Association="Self.FK_StorageTbl_ArticleTbl">
+            <End Role="ArticleTbl" EntitySet="ArticleTbls" />
+            <End Role="StorageTbl" EntitySet="StorageTbls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_sellFactor_CustomerTbl" Association="Self.FK_sellFactor_CustomerTbl">
+            <End Role="CustomerTbl" EntitySet="CustomerTbls" />
+            <End Role="sellFactor" EntitySet="sellFactors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userTbl_RoleTbl" Association="Self.FK_userTbl_RoleTbl">
+            <End Role="RoleTbl" EntitySet="RoleTbls" />
+            <End Role="userTbl" EntitySet="userTbls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StorageTbl_userTbl" Association="Self.FK_StorageTbl_userTbl">
+            <End Role="userTbl" EntitySet="userTbls" />
+            <End Role="StorageTbl" EntitySet="StorageTbls" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="accauntingDBModelStoreContainer" CdmEntityContainer="accauntingDBEntities">
+          <EntitySetMapping Name="ArticleTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.ArticleTbl">
+              <MappingFragment StoreEntitySet="ArticleTbl">
+                <ScalarProperty Name="articleID" ColumnName="articleID" />
+                <ScalarProperty Name="articleCode" ColumnName="articleCode" />
+                <ScalarProperty Name="articleName" ColumnName="articleName" />
+                <ScalarProperty Name="articleDesc" ColumnName="articleDesc" />
+                <ScalarProperty Name="articlePrice" ColumnName="articlePrice" />
+                <ScalarProperty Name="articleExDate" ColumnName="articleExDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.CustomerTbl">
+              <MappingFragment StoreEntitySet="CustomerTbl">
+                <ScalarProperty Name="customerID" ColumnName="customerID" />
+                <ScalarProperty Name="customerName" ColumnName="customerName" />
+                <ScalarProperty Name="customerFamily" ColumnName="customerFamily" />
+                <ScalarProperty Name="customerFatherName" ColumnName="customerFatherName" />
+                <ScalarProperty Name="customerNationalCode" ColumnName="customerNationalCode" />
+                <ScalarProperty Name="customerPhoneNumber" ColumnName="customerPhoneNumber" />
+                <ScalarProperty Name="customerAddress" ColumnName="customerAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="mainStorageTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.mainStorageTbl">
+              <MappingFragment StoreEntitySet="mainStorageTbl">
+                <ScalarProperty Name="mainstorageID" ColumnName="mainstorageID" />
+                <ScalarProperty Name="articleCode" ColumnName="articleCode" />
+                <ScalarProperty Name="articleExDate" ColumnName="articleExDate" />
+                <ScalarProperty Name="operatorName" ColumnName="operatorName" />
+                <ScalarProperty Name="articlePrice" ColumnName="articlePrice" />
+                <ScalarProperty Name="setDate" ColumnName="setDate" />
+                <ScalarProperty Name="articleCount" ColumnName="articleCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoleTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.RoleTbl">
+              <MappingFragment StoreEntitySet="RoleTbl">
+                <ScalarProperty Name="roleID" ColumnName="roleID" />
+                <ScalarProperty Name="roleName" ColumnName="roleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sellFactors">
+            <EntityTypeMapping TypeName="accauntingDBModel.sellFactor">
+              <MappingFragment StoreEntitySet="sellFactor">
+                <ScalarProperty Name="sellFactorId" ColumnName="sellFactorId" />
+                <ScalarProperty Name="sellerPerson" ColumnName="sellerPerson" />
+                <ScalarProperty Name="customerIdFK" ColumnName="customerIdFK" />
+                <ScalarProperty Name="customerPhoneNumber" ColumnName="customerPhoneNumber" />
+                <ScalarProperty Name="customerAddress" ColumnName="customerAddress" />
+                <ScalarProperty Name="articleIdFK" ColumnName="articleIdFK" />
+                <ScalarProperty Name="articleName" ColumnName="articleName" />
+                <ScalarProperty Name="articleCount" ColumnName="articleCount" />
+                <ScalarProperty Name="articlePrice" ColumnName="articlePrice" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="sellPrice" ColumnName="sellPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StorageTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.StorageTbl">
+              <MappingFragment StoreEntitySet="StorageTbl">
+                <ScalarProperty Name="StorageID" ColumnName="StorageID" />
+                <ScalarProperty Name="operatorIdFK" ColumnName="operatorIdFK" />
+                <ScalarProperty Name="articleIdFK" ColumnName="articleIdFK" />
+                <ScalarProperty Name="articleSetDate" ColumnName="articleSetDate" />
+                <ScalarProperty Name="articleCount" ColumnName="articleCount" />
+                <ScalarProperty Name="articlePrice" ColumnName="articlePrice" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+                <ScalarProperty Name="articleExDate" ColumnName="articleExDate" />
+                <ScalarProperty Name="articleName" ColumnName="articleName" />
+                <ScalarProperty Name="articleCode" ColumnName="articleCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="accauntingDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userTbls">
+            <EntityTypeMapping TypeName="accauntingDBModel.userTbl">
+              <MappingFragment StoreEntitySet="userTbl">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="userUsername" ColumnName="userUsername" />
+                <ScalarProperty Name="userPassword" ColumnName="userPassword" />
+                <ScalarProperty Name="userRoleIdFK" ColumnName="userRoleIdFK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
